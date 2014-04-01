@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Online Taxi Service, Almaty</title>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.5.js" type="text/javascript"></script>
+    <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=6.3"></script>
+<link rel="stylesheet" type="text/css" media="all" href="http://uxnext.org.ua/wp-content/themes/uxnext/style.css" />
+    <style>
+	html * {padding:0;margin:0;}
+		#mapContainer {
+			position: relative; 
+			width: 1000px;
+			height: 400px;
+			left:50%;
+			background: white url('http://lukianets.com/uxnext/ajax-loader.gif') center center no-repeat;
+			margin-left:-500px;
+			-moz-box-shadow:0 0 5px #000000;
+			-webkit-box-shadow: 0 0 5px #000000;
+			box-shadow: 0 0 5px #000000;
+		}
+	</style>
+
+</head>
+<body>
+    <div id="mapContainer"></div>
+    
+    <script type="text/javascript">
+	var myMap = null;
+	var altitude = 1;
+	
+	function success(position) {
+		var mapContainer = document.getElementById('mapContainer');
+		var latLongInfo = new VELatLong(position.coords.latitude, position.coords.longitude, altitude, VELatLong.RelativeToGround);
+		alert(position.coords.latitude + ', ' + position.coords.longitude);
+		myMap.LoadMap(latLongInfo, 14, VEMapStyle.Road, false, VEMapMode.Mode2D, true, 1);
+		myMap.Resize(1000,400);
+		mapContainer.style.width = '1000px';
+		mapContainer.style.height = '400px';
+		
+		var pinPoint = myMap.GetCenter();
+		var pin = myMap.AddPushpin(pinPoint);
+		pin.SetTitle("Online taxi service");
+		pin.SetDescription("Это демо №1");
+		pin.SetCustomIcon("<img src='http://www.w3.org/html/logo/downloads/HTML5_Logo_64.png' style='margin-top:-64px' />");
+		pin.SetMoreInfoURL("http://uxnext.org.ua/");
+	}
+	
+	function error(msg) {
+		alert( "Error" );
+	}
+	
+	$(document).ready( function() {
+	
+		myMap = new VEMap( "mapContainer" );
+		if (navigator.geolocation) {
+			 navigator.geolocation.getCurrentPosition(success, error);
+		}
+
+	});
+    </script>
+<center><a href="index.html" title="Computer Training Practice"><img src="pics\bg1.png" alt="" border="0"  height="100" weight="310"></a><br><hr><br>				   <a href="order.html"><img src="pics\but_ord1_2.png"					onmouseover="this.src='pics/but_ord1.png'"					onmouseout="this.src='pics/but_ord1_2.png'" border=0> </a>					</center>
+</body>
+</html>
